@@ -1,29 +1,27 @@
 const express = require('express');
 const router = express.Router();
+const brandCtrl = require('../controller/brands');
 
 const db = require('../seedDB');
 const cheerio = require('cheerio');
 const request = require('request');
-const wordOfDay = [];
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.send('Hello World!');
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 router.get('/food', function (req, res, next) {
   res.send(
-    JSON.stringify(db.foodInfo)
+    db.foodInfo
   );
 });
 
-router.get('/:id', function (req, res) {
-  console.log(req.params)
-  res.send( JSON.stringify(db.foodInfo[req.params.id]))
-});
+// router.get('/:id', function (req, res) {
+//   console.log(req.params);
+//   res.send(JSON.stringify(db.foodInfo[req.params.id]))
+// });
 
-router.get('/user', function(req, res, next) {
-  res.send('Respond with a resource');
-});
+router.get('/:name', brandCtrl.find);
+
 
 module.exports = router;
